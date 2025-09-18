@@ -1,0 +1,11 @@
+#[build]
+#target = "thumbv6m-none-eabi"
+
+[target.thumbv6m-none-eabi]
+# cortex-m-rt の link.x を使うようリンカに明示
+rustflags = [
+    "-C", "link-arg=-Tlink.x",
+]
+
+# 便利：直接UF2焼く運用にするなら runner を設定してもOK（任意）
+# runner = "elf2uf2-rs -d"
