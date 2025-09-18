@@ -1,14 +1,15 @@
-#![no_std]
+#![cfg_attr(not(test), no_std)]
 #![no_main]
 
 use cortex_m_rt::entry;
 use panic_halt as _;
 
+use embedded_hal::digital::OutputPin;
 use rp2040_hal as hal;
 
 #[link_section = ".boot2"]
 #[used]
-pub static BOOT2: [u8; 256] = rp2040_boot2::BOOT_LOADER_GENERIC;
+pub static BOOT2: [u8; 256] = rp2040_boot2::BOOT_LOADER_GENERIC_03H;
 
 #[entry]
 fn main() -> ! {
@@ -16,7 +17,7 @@ fn main() -> ! {
     let mut pac = hal::pac::Peripherals::take().unwrap();
     let mut watchdog = hal::Watchdog::new(pac.WATCHDOG);
 
-    let clocks = hal::clocks::init_clocks_and_plls(
+    let _clocks = hal::clocks::init_clocks_and_plls(
         12_000_000,
         pac.XOSC,
         pac.CLOCKS,
@@ -24,7 +25,9 @@ fn main() -> ! {
         pac.PLL_USB,
         &mut pac.RESETS,
         &mut watchdog,
-    ).ok().unwrap();
+    )
+    .ok()
+    .unwrap();
 
     // SIO/GPIO
     let sio = hal::Sio::new(pac.SIO);
