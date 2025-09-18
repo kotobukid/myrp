@@ -1,0 +1,18 @@
+[package]
+name = "myrp"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+cortex-m = "0.7"
+cortex-m-rt = "0.7"
+embedded-hal = "1"
+rp2040-hal = "0.10"        # ← 最新系に合わせてOK（固定不要）
+rp2040-boot2 = "0.3"       # ブートローダの256B blob
+panic-halt = "0.2"
+
+[profile.release]
+codegen-units = 1
+debug = true
+lto = "fat"
+opt-level = "s"
